@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Order>
+@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "Danh Sách Đặt Hàng";
+}
+
+<h3>Danh Sách Đặt Hàng</h3>
+
+<table class="table table-hover">
+    <tr>
+        <th>Mã sản phẩm</th>
+        <th>Người nhận</th>
+        <th>Ngày đặt hàng</th>
+        <th>Thành tiền</th>
+        <th></th>
+    </tr>
+    @foreach (var o in Model)
+    {
+        <tr>
+            <td>@o.Id</td>
+            <td>@o.Receiver</td>
+            <td>@o.OrderDate</td>
+            <td>@String.Format("{0:0,0 VNĐ}", o.Amount).Replace(",", ".")</td>
+            <td>
+                <a href="/Order/Detail/@o.Id">Chi tiết</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                @*<img class="remove-from-cart" data-id="@o.Id" src="~/Content/img/icons/Delete.png" />*@
+            </td>
+
+        </tr>
+    }
+</table>
+@*@section scripts{
+    <script>
+        $(function () {
+            // Xóa khỏi giỏ
+            $(".remove-from-cart").click(function () {
+                pid = $(this).attr("data-id");
+                tr = $(this).parents("tr");// tim <tr> chua <img> bi click
+                $.ajax({
+                    url: "/Order/Remove",
+                    data: { id: pid },
+                    success: function (response) {
+                        $("#nn-cart-count").html(response.Count);
+                        $(".nn-cart-total").html(response.Total);
+                        tr.hide(500);
+                    }
+                });
+            });
+            // Cập nhật số lượng
+            $(".quantity").keyup(function () {
+                pid = $(this).attr("data-id");
+                qty = $(this).val();
+                $.ajax({
+                    url: "/Cart/Update",
+                    data: { id: pid, quantity: qty },
+                    success: function (response) {
+                        $("#nn-cart-count").html(response.Count);
+                        $(".nn-cart-total").html(response.Total);
+                        $("#" + pid).html(response.Name);
+                    }
+                });
+            });
+        });
+    </script>
+}*@

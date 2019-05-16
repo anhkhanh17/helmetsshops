@@ -1,0 +1,174 @@
+﻿@using MultiShop.Models;
+@model Category
+
+@{
+    ViewBag.Title = "Danh mục";
+}
+
+<div class="row">
+    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            @Html.Label("Mã danh mục", new {@class="control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextBox("Id", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+    <div class="form-group">
+        @Html.Label("Danh mục", new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.TextBox("Name", null, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Hình ảnh", new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.TextBox("Image", null, new { @class = "form-control", Value = "Mubaohiem.png" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Icon", new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.TextBox("Icon", null, new { @class = "form-control", Value= "Mubaohiem.png" })
+        </div>
+    </div>
+        
+     <div class="col-md-offset-2">
+         <button type="submit" onclick="form.action='/Admin/Category/Insert'" class="btn btn-primary box-button">
+             Thêm
+             <i class="fa fa-check icon-white"></i>
+         </button>
+
+         <button type="submit" onclick="form.action = '/Admin/Category/Update'" class="btn btn-info box-button">
+             Cập nhật
+             <i class="fa fa-pencil icon-white"></i>
+         </button>
+         <button type="button" onclick="form.action = '/Admin/Category/Delete'" class="btn btn-danger box-button" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @Model.Id" data-message="Bạn có chắc chắn muốn xóa mục @Model.Id ?">
+             Xóa
+             <i class=" fa fa-trash icon-white">
+             </i>
+         </button>
+         <button onclick="form.action = '/Admin/Category/Index'" class="btn btn-default box-button">
+             Làm mới
+         </button>
+
+     </div>
+    }
+</div>
+<hr style="color:red;" />
+<div class="row" style="padding-left:10px;padding-right:10px;">
+    @using(Html.BeginForm())
+    { 
+    
+    <table class="table" id="domainTable">
+        <thead>
+            <tr>
+
+                <th>
+                    <input type="checkbox" id="check-all-header" />
+
+                </th>
+                <th>Mã danh mục </th>
+                <th>Tên danh mục</th>
+                <th>Hình ảnh</th>
+                <th>Icon</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Category item in ViewBag.Category)
+            {
+
+
+                <tr>
+                    <td>
+
+                        <input type="checkbox" name="ids" value="@item.Id" />
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem=>item.Name)
+                    </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Image)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Icon)
+                    </td>
+                    <td>
+                        @*<a href="/Admin/Supplier/Edit/@item.Id" class="btn btn-warning btn-sm supplier-edit"><i class="fa fa-pencil icon-white"></i></a>*@
+                        <button id="supplier-edit" onclick="form.action = '/Admin/Category/Edit/@item.Id'" class="btn btn-warning btn-sm"><i class="fa fa-pencil icon-white"></i></button>
+
+                        @*<a data-target="#confirmDelete" class="btn delete-asset btn-danger btn-sm" data-toggle="modal"   data-message="Are you sure you wish to delete this supplier @item.Name?" data-title="Delete @item.Name"><i class="fa fa-trash icon-white"></i></a>*@
+
+                        <button type="button" class="btn delete-asset btn-danger btn-sm" onclick="form.action = '/Admin/Category/Delete/@item.Id'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @item.Id" data-message="Bạn có chắc chắn muốn xóa mục @item.Id ?">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+
+
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+
+    </table>
+
+
+
+    <button class="btn btn-lg btn-danger" type="button" onclick="form.action = '/Admin/Category/DeleteSelected'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item item" data-message="Bạn có chắc chắn muốn xóa mục đã chọn?">
+        Xóa mục đã chọn
+        <i class="glyphicon glyphicon-trash"></i>
+    </button>
+    }
+</div>
+
+
+@Html.Partial("_ModelPopup")
+@section scripts{
+<script src="~/Scripts/LoadDataTable.js"></script>
+<script src="~/Scripts/ModelPopup.js"></script>
+
+<script>
+    $('#deleteConfirmModal').modal('show');
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var FR = new FileReader();
+            FR.onload = function (e) {
+                $('#img').attr("src", e.target.result);
+                $('#logo-text').val(e.target.result);
+            };
+            FR.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#Logo").change(function () {
+        readImage(this);
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#check-all-header").click(function () {
+            var checkedStatus = this.checked;
+            $('#domainTable tbody tr').find('td:first :checkbox').each(function () {
+                $(this).prop('checked', checkedStatus);
+            });
+
+        });
+
+    });
+</script>
+
+
+}

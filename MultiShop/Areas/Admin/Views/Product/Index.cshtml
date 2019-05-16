@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewBag.Title = "Quản Lý Sản Phẩm";
+}
+<div> <a href="/Admin/Product/Insert" class="btn btn-success btn-lg" id="create-supplier"> Thêm mới <i class="fa fa-plus icon-white"></i></a></div>
+@using (Html.BeginForm())
+{
+    <table class="table" id="domainTable">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="check-all-header" />
+                </th>
+                <th>Mã sản phẩm</th>
+                <th>
+                    Tên sản phẩm
+                </th>
+                <th>Giá</th>
+                <th>Hình ảnh</th>
+                <th>Hành động</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" name="ids" value="@item.Id" /></td>
+                    <td>@Html.DisplayFor(m => item.Id)</td>
+                    <td>@Html.DisplayFor(m => item.Name)</td>
+                    <td>@Html.DisplayFor(m => item.UnitPrice)</td>
+                    <td><a href="/Admin/Product/Detail/@item.Id"> <img src="~/Content/img/products/images/@item.Image" data-echo="/Content/img/products/images/@item.Image" style="width:50px;height:60px; border:1px solid #ececec" /> </a></td>
+
+                    <td>
+                        @*<a href="/Admin/Supplier/Edit/@item.Id" class="btn btn-warning btn-sm supplier-edit"><i class="fa fa-pencil icon-white"></i></a>*@
+                        <button id="supplier-edit" onclick="form.action = '/Admin/Product/Edit/@item.Id'" class="btn btn-warning btn-sm"><i class="fa fa-pencil icon-white"></i></button>
+
+                        @*<a data-target="#confirmDelete" class="btn delete-asset btn-danger btn-sm" data-toggle="modal"   data-message="Are you sure you wish to delete this supplier @item.Name?" data-title="Delete @item.Name"><i class="fa fa-trash icon-white"></i></a>*@
+
+                        <button type="button" class="btn delete-asset btn-danger btn-sm" onclick="form.action = '/Admin/Product/Delete/@item.Id'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @item.Id" data-message="Bạn có chắc chắn muốn xóa mục @item.Id ?">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                        <button id="supplier-detail" onclick="form.action = '/Admin/Product/Detail/@item.Id'" class="btn btn-info btn-sm"><i class="fa fa-info"></i></button>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-lg btn-danger" type="button" onclick="form.action = '/Admin/Product/DeleteSelected'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item item" data-message="Bạn có chắc chắn muốn xóa các mục đã chọn không?">
+        Xóa mục đã chọn
+        <i class="glyphicon glyphicon-trash"></i>
+    </button>
+}
+@Html.Partial("_ModelPopup")
+
+@section scripts{
+    <script src="~/Scripts/LoadDataTable.js"></script>
+    <script src="~/Scripts/ModelPopup.js"></script>
+    <script src="~/Scripts/CheckAll.js"></script>
+
+}

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ReportInfo>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Thống kê</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th> Tên </th>
+        <th> Tổng số lượng </th>
+        <th> Tổng giá</th>
+        <th> Giá tối thiểu </th>
+        <th> Giá tối đa </th>
+        <th> Giá trung bình </th>
+    </tr>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.Group</td>
+            <td>@r.Count</td>
+            <td>@Html.FormatValue(r.Sum, "{0:c}")</td>
+            <td>@Html.FormatValue(r.Min, "{0:c}")</td>
+            <td>@Html.FormatValue(r.Max, "{0:c}")</td>
+            <td>@Html.FormatValue(r.Avg, "{0:c}")</td>
+        </tr>
+    }
+</table>
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('.table').dataTable({
+                "dom": 'RC<"clear">lfrtip'
+               // "dom": 'Rlfrtip'
+
+        });
+
+
+
+
+        });
+    </script>
+
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('.table').dataTable();
+        var tt = new $.fn.dataTable.TableTools(table);
+        $(tt.fnContainer()).insertBefore('div.dataTables_wrapper');
+    });
+    </script>
+}

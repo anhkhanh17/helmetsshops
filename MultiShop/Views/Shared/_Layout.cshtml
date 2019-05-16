@@ -1,0 +1,112 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Helmets Shop</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&appId=559768260768581&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+        <div class="container">
+            <header class="nn-header">
+                <div class=" col-sm-3 col-md-3 nn-text-align-center">
+                    <a href="/"><img src="~/Content/img/logo5.png" class="img-responsive" /></a>
+                </div>
+                <div class="col-md-6 col-sm-6 ">
+                    @Html.Partial("_Search")
+                </div>
+                <div class="nn-cart-box col-sm-3 col-md-3 ">
+                    <div class="nn-top-cart-wrapper ">
+                        <div class="nn-top-cart-contain">
+                            @Html.Partial("_CartInfo")
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="navbar navbar-default">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
+                        <span class="sr-only">Chuyển hướng</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="Home/Index"><span class="glyphicon glyphicon-home "></span></a>
+                </div>
+
+
+                <div class="navbar-collapse collapse js-navbar-collapse">
+                    @Html.Partial("_Menu")
+                </div>
+            </div>
+            <div class="abc">
+                <div class="nn-home-banner">
+                    <img class="mySlides" src="/Content/img/banner/banner-non-bh.png" class="img-responsive" />
+                    <img class="mySlides" src="~/Content/img/banner/banner-carbon-2019.jpg" class="img-responsive" />
+                    <img class="mySlides" src="~/Content/img/banner/mu-bao-hiem-banner.jpg" class="img-responsive" />
+                </div><!--end home banner-->
+                <!--liveshow banner-->
+                <script>
+                    var myIndex = 0;
+                    carousel();
+
+                    function carousel() {
+                        var i;
+                        var x = document.getElementsByClassName("mySlides");
+                        for (i = 0; i < x.length; i++) {
+                            x[i].style.display = "none";
+                        }
+                        myIndex++;
+                        if (myIndex > x.length) { myIndex = 1 }
+                        x[myIndex - 1].style.display = "block";
+                        setTimeout(carousel, 2000);
+                    }
+                </script>
+            </div>
+            <div class="container row">
+                <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                    @Html.Action("Category", "Home")
+                    @Html.Action("Saleoff", "Home")
+                    @Html.Action("Special", "Home")
+                    @Html.Partial("_Adbanner", "Home")
+
+                </div>
+                <div class="col-md-9 col-sm-9 col-lg-9 col-xs-12">
+                    @RenderBody()
+                </div>
+            </div>
+            <div class="ma-footer-static">
+                @Html.Partial("_Footer")
+            </div>
+        </div>
+
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+        <script src="~/Content/js/jquery-ui.js"></script>
+        @RenderSection("scripts", required: false)
+        <script>
+            $(function () {
+                $("#search").autocomplete({
+                    source: "/Home/Search",
+                    minLength: 2
+                });
+            })
+        </script>
+</body>
+</html>
+<noembed />

@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Liên Hệ";
+}
+<h2>@ViewBag.Title</h2>
+@*<h3>@ViewBag.Message</h3>*@
+
+<address>
+    Khu phố Bình Quới<br />
+    phường Bình Chuẩn, thị xã Thuận An, Bình Dương<br />
+    <abbr title="Phone">Phone:</abbr>
+    0926048886
+</address>
+
+<address>
+    <strong>Hỗ trợ:</strong>   <a href="mailto:Support@example.com">helmetsshops@gmail.com</a><br />
+    <strong>Giờ mở cửa: 7h00 sáng</strong>
+    <p> Từ thứ 2 đến chủ nhật: 7h00</p>
+    <p><strong>Giờ đóng cửa: 21h00 tối</strong></p>
+</address>
+
+<!--Contact-->
+@*<p class="bgrc">
+        <img id="ctt" src="/Content/img/contact_slide.jpg"/>
+    </p>*@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .input-container {
+            display: -ms-flexbox;
+            display: flex;
+            width: 100%;
+            margin-bottom: 4px;
+            margin-left: 185px;
+        }
+
+        .icon {
+            padding: 10px;
+            background: deepskyblue;
+            color: white;
+            min-width: 50px;
+            text-align: center;
+            border-bottom-left-radius: 9px;
+            border-top-left-radius: 9px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            outline: none;
+            border-bottom-right-radius: 9px;
+            border-top-right-radius: 9px;
+        }
+
+            .input-field:focus {
+                border: 1px solid deepskyblue;
+            }
+
+        /* Set a style for the submit button */
+
+        .send:hover {
+            opacity: 1;
+        }
+
+        input[type=submit] {
+            background-color: deepskyblue;
+            color: white;
+            padding: 11px 24px;
+            border: -1px;
+            border-radius: 9px;
+            cursor: pointer;
+            margin-left: 467px;
+            text-align: center;
+        }
+
+        .test {
+            background-image: url(../Content/img/contact_slide.jpg);
+            margin-left: -27px;
+            width: 800px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test"></div>
+    <form action="/action_page.php" style="max-width: 360px;margin:auto;margin-left: 160px;margin-top: -298px;">
+        <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input class="input-field" type="text" placeholder="Nhập họ tên của bạn..." name="UserName">
+        </div>
+
+        <div class="input-container">
+            <i class="fa fa-envelope icon"></i>
+            <input class="input-field" type="text" placeholder="Nhập email của bạn..." name="Email">
+        </div>
+
+        <div class="input-container">
+            <i class="fa fa-pencil icon"></i>
+            <textarea class="input-field" type="text" placeholder="Nội dung liên hệ..." name="Message" style="height:130px"></textarea>
+        </div>
+
+        <input type="submit" value="Gửi">
+    </form>
+</body>

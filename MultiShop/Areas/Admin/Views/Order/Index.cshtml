@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Order>
+@{
+    ViewBag.Title = "Danh Sách";
+}
+
+<h2>Danh sách đơn hàng</h2>
+
+<table class="table table-hover" id="domainTable">
+    <thead>
+        <tr>
+            <th>
+                <input type="checkbox" id="check-all-header" />
+
+            </th>
+            <th>Mã sản phẩm</th>
+            <th>Người nhận</th>
+            <th>Ngày đặt hàng</th>
+            <th>Thành tiền</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>
+
+                    <input type="checkbox" name="ids" value="@o.Id" />
+
+                </td>
+                <td>@o.Id</td>
+                <td>@o.Receiver</td>
+                <td>@o.OrderDate</td>
+                <td>@o.Amount</td>
+                <td>
+                    <a href="/Admin/Order/Detail/@o.Id">Chi tiết</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+<script src="~/Scripts/LoadDataTable.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#check-all-header").click(function () {
+            var checkedStatus = this.checked;
+            $('#domainTable tbody tr').find('td:first :checkbox').each(function () {
+                $(this).prop('checked', checkedStatus);
+            });
+
+        });
+
+    });
+</script>
+
+}

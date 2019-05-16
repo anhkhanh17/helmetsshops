@@ -1,0 +1,93 @@
+﻿@using MultiShop.Areas.Admin;
+
+@model IEnumerable<ReportInfo>
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="content">
+
+
+    <h2>Doanh Thu</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th> Tên </th>
+                <th> Tổng số lượng </th>
+                <th> Tổng giá</th>
+                <th> Giá tối thiểu </th>
+                <th> Giá tối đa </th>
+                <th> Giá trung bình </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>
+                        @r.Group @if (r.iGroup != 0)
+                        {@r.iGroup}
+                    </td>
+                    <td>@r.Count</td>
+                    <td>@Html.FormatValue(r.Sum, "{0:c}")</td>
+                    <td>@Html.FormatValue(r.Min, "{0:c}")</td>
+                    <td>@Html.FormatValue(r.Max, "{0:c}")</td>
+                    <td>@Html.FormatValue(r.Avg, "{0:c}")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="piechart_3d" style="height: 500px;"></div>
+
+</section>
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('.table').dataTable({
+                "dom": 'RC<"clear">lfrtip'
+                //"dom": 'Rlfrtip'
+
+            });
+
+
+
+
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('.table').dataTable();
+            var tt = new $.fn.dataTable.TableTools(table);
+            $(tt.fnContainer()).insertBefore('div.dataTables_wrapper');
+        });
+    </script>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Loai', 'Doanh so'],
+          @foreach (var r in Model)
+          {
+              <text>["@r.Group", @r.Sum],</text>
+          }
+        ]);
+
+        var options = {
+            title: 'Doanh số bán hàng',
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+    }
+    </script>
+
+}

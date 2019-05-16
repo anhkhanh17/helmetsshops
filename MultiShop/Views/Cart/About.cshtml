@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Giỏ Hàng Của Tôi";
+}
+<h4> Bạn chưa có sản phẩm nào trong giỏ hàng. Hãy lựa chọn sản phẩm bạn cần mua.</h4>
+<div class="cart-empty">
+    <img class="img-responsive center-block" src="~/Content/img/empty-bags.jpg" alt="Giỏ hàng trống">
+    <div class="btn-cart-empty">
+        <a class="btn btn-default" href="/Home/Index" title="Tiếp tục mua sắm">Tiếp tục mua sắm</a>
+    </div>
+</div>
+
+<style>
+    .cart-empty img {
+        max-width: 200px;
+    }
+    .cart-empty .btn-cart-empty {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .center-block {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .img-responsive {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        width: 100%;
+    }
+
+    .center-block {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>

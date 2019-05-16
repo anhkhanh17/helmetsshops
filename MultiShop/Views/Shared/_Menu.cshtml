@@ -1,0 +1,31 @@
+﻿
+    <ul class="nav navbar-nav">
+        <li><a href="/Home/Index">Trang chủ</a></li>
+        <li><a href="/Home/About">Giới Thiệu</a></li>
+        <li><a href="/Home/Contact">Liên hệ</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        @*<li><a href="#"><span class="glyphicon glyphicon-user"></span> Tài khoản</a></li>*@
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-user">&nbsp;</span>@(Request.IsAuthenticated ? User.Identity.Name : "Tài khoản") <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                @if (!Request.IsAuthenticated)
+                {
+                    <li><a href="/Account/Login">Đăng nhập</a></li>
+                    <li><a href="/Account/Forgot">Quên mật khẩu</a></li>
+                    <li><a href="/Account/Register">Đăng ký thành viên</a></li>
+                }
+                else
+                {
+                    <li><a href="/Account/LogOff">Đăng xuất</a></li>
+                    <li><a href="/Account/Manage">Đổi mật khẩu</a></li>
+                    <li><a href="/Account/Edit">Cập nhật hồ sơ</a></li>
+                    <li><a href="/Order/List">Đơn hàng</a></li>
+
+                }
+            </ul>
+        </li>
+        <li><a href="/Cart/Index"><span class="glyphicon glyphicon-shopping-cart"></span> <span id="nn-cart-count">@ShoppingCart.Cart.Count</span><i class="caret"></i></a></li>
+    </ul>

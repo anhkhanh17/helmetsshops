@@ -1,0 +1,163 @@
+﻿
+
+
+@{
+    var username="";
+    if (User.Identity.IsAuthenticated)
+    {
+        username = User.Identity.Name;
+    }
+}
+
+<header class="main-header">
+    <!-- Logo -->
+    <a href="/admin/manage" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><i class="fa fa-home"></i></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg">Trang Admin <i class="fa fa-home"></i></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-plus"></i> Thêm mới                        
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/admin/supplier/index">
+                                <i class="fa fa-barcode"></i>
+                                Nhà cung cấp
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/master">
+                                <i class="fa fa-user-plus"></i>
+                                Thêm người dùng
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/category">
+                                <i class="fa fa-credit-card"></i> 
+                                Danh mục
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/product/insert">
+                                <i class="fa fa-flag"></i>
+                                Thêm sản phẩm
+                            </a>
+                        </li>
+                         <li>
+                            <a href="/admin/category">
+                                <i class="fa fa-credit-card"></i> 
+                                Đơn hàng
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+                <!-- User Account: style can be found in dropdown.less -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        @*@Html.GravatarImage(@username, new GravatarOptions { Size = 14, DefaultImageType = "wavatar", CssClass = "img-circle" })*@
+
+                        <span class="hidden-xs">@username</span>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                          
+                            <a href="Account/Edit">
+                                <i class="fa fa-user"></i> Sửa thông tin 
+                            </a>
+                            <a href="Account/Manage">
+                                <i class="fa fa-lock"></i> Đổi mật khẩu
+                            </a>
+                           
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/Account/LogOff">
+                                <i class="fa fa-sign-out"></i>
+                                Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+               
+                <!--Admin menu -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-wrench icon-white"></i> Admin <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                       
+                        <li>
+                            <a href="/admin/supplier/">
+                                <i class="fa fa-credit-card"></i> Nhà cung cấp
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/master/">
+                                <i class="fa fa-user"></i> Quản lý người dùng
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/webaction">
+                                <i class="fa fa-key"></i> Bộ lọc hành động
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/category">
+                                <i class="fa fa-credit-card"></i> Danh mục
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/product">
+                                <i class="fa fa-credit-card"></i> Sản phẩm
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/order">
+                                <i class="fa fa-credit-card"></i> Đơn hàng
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/admin/permission/">
+                                <i class="fa fa-lock"></i> Giấy phép
+                            </a>
+                        </li>
+                        
+                                            
+
+                        <li>
+                            <a href="/admin/manage/setting">
+                                <i class="fa fa-cog"></i> Cài đặt
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <!-- Control Sidebar Toggle Button -->
+                <li>
+                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin- Helmets Shop</title>
+    @*@Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/BootstrapValidator/css")
+    @Styles.Render("~/LTE211/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Jtable/css")
+
+    @*<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/be7019ee387/integration/bootstrap/3/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css">*@
+</head>
+<body class="skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        @Html.Partial("Partials/_Header")
+        
+        <!-- Left side column. contains the logo and sidebar -->
+       @Html.Partial("Partials/_Aside")
+       
+        <!-- Content Wrapper. Contains page content -->
+    
+        <div class="content-wrapper">
+       
+           
+       
+            <section class="content">
+                @{ Html.RenderPartial("_Alerts"); }
+                @RenderBody()
+            </section>
+
+
+        </div><!-- /.content-wrapper -->
+        
+        @Html.Partial("Partials/_Footer")
+
+       @Html.Partial("Partials/_ControlSideBar")
+    </div><!-- ./wrapper -->
+    
+
+    
+
+
+
+    @Scripts.Render("~/LTE211/jquery")
+    @Scripts.Render("~/Jtable/jquery")
+    @Scripts.Render("~/BootstrapValidator/jquery")
+    <script>
+    $.widget.bridge('uibutton', $.ui.button);
+    </script>
+
+
+    @RenderSection("scripts", required: false)
+   
+    <script>
+    $(document).ready(function () {
+       // $("#id-alert").fadeOut(6000);
+        // setTimeout(function () { $("#id-alert").hide() }, 3000)
+    });
+
+
+
+    </script>
+
+
+
+</body>
+
+   
+</html>

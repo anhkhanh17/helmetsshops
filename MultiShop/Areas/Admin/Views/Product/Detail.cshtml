@@ -1,0 +1,67 @@
+﻿@model Product
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+
+@using (Html.BeginForm(FormMethod.Post))
+{ 
+<div class="row content">
+
+    <div class="col-xs-12 col-sm-6 col-md-5">
+        <div class="wrapper pull-right">
+            <div>
+                <img src="~/Content/img/products/images/@Model.Image" class="img-responsive" />
+            </div>
+        </div>
+            <div class="pull-right">
+               
+                <button id="supplier-edit" onclick="form.action = '/Admin/Product/Edit/@Model.Id'" class="btn btn-warning btn-sm"><i class="fa fa-pencil icon-white"></i></button>
+
+            <button type="button" class="btn delete-asset btn-danger btn-sm" onclick="form.action = '/Admin/Product/Delete/@Model.Id'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @Model.Id" data-message="Are you sure you want to delete item @Model.Id ?">
+                <i class="glyphicon glyphicon-trash"></i>
+            </button>
+            </div>
+
+        
+    </div>
+
+
+    <div class="col-sm-6 col-md-7">
+        <div class="product-name">@Model.Name</div>
+        <div class="spacing-20"></div>
+        <div class="spacing-20"></div>
+        <div class="wrap-pro-info">
+            <div>
+                <span>Mã sản phẩm:</span> &nbsp;&nbsp;
+                <strong><span>@Model.Name - @Model.Id</span></strong>
+            </div>
+            <div>
+                Danh mục:&nbsp;&nbsp; @Model.Category.Name
+            </div>
+            <div class="spacing-20"></div>
+            <div>
+                Trạng thái: &nbsp;&nbsp;@Model.Quantity sản phẩm
+            </div>
+            <div>
+                <span>Giá:</span>&nbsp;&nbsp; <span class="product-name">@String.Format("{0:0,0 VNĐ}", Model.UnitPrice).Replace(",", ".")</span>
+            </div>
+           
+
+        </div>
+    </div>
+</div>
+<div>
+    @Html.Raw(@Model.Description)
+</div>
+}
+
+@Html.Partial("_ModelPopup")
+
+@section scripts{
+    <script src="~/Scripts/LoadDataTable.js"></script>
+    <script src="~/Scripts/ModelPopup.js"></script>
+   
+
+}

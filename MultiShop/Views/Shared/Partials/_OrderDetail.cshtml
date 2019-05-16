@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Product>
+
+
+    <table class="table table-striped">
+        <tr>
+            <th>Mã sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Đơn giá</th>
+            <th>Chiết khấu</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+
+        </tr>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Name</td>
+                <td>@Html.FormatValue(p.UnitPrice, "{0:n}")</td>
+                <td>@Html.FormatValue(p.Discount, "{0:p}")</td>
+                <td>@p.Quantity</td>
+                @*<td><input class="quantity" type="number" value="@p.Quantity" data-id="@p.Id" size="3" id="@p.Id-ss" min="1" max="99" readonly /></td>*@
+                <td id="@p.Id">@Html.FormatValue(p.UnitPrice * p.Quantity * (1 - p.Discount), "{0:n}")</td>
+                
+            </tr>
+        }
+            <tr> 
+                <th colspan="5" style="text-align:right">Tổng tiền:</th>
+                <th class="nn-cart-total">@Html.FormatValue(ShoppingCart.Cart.Total, "{0:n}") VNĐ</th>
+            </tr>
+    </table>
+   
+
+

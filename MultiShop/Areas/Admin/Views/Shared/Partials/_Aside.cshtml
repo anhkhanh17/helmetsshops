@@ -1,0 +1,112 @@
+﻿
+@{
+    var username = "";
+    if (User.Identity.IsAuthenticated)
+    {
+        username = User.Identity.Name;
+    }
+}
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                @*@Html.GravatarImage(@username, new GravatarOptions { Size = 14, DefaultImageType = "wavatar", CssClass = "img-circle" })*@
+                <span class="hidden-xs">@username</span>
+            </div>
+            @*<div class="pull-left info">
+                
+                @if (User.Identity.IsAuthenticated)
+                {
+                   
+
+                    
+
+
+                }
+                else
+                {
+                    <a href="#"><i class="fa fa-circle text-success"></i> Offline</a>
+                }
+                
+            </div>*@
+        </div>
+        <!-- search form -->
+        @*<form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search..." />
+                <span class="input-group-btn">
+                    <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        </form>*@
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="header">Quản lý </li>
+
+
+            <li>
+                <a href="/admin/category">
+                    <i class="fa fa-edit"></i> <span>Danh mục</span> <small class="label pull-right bg-green">new</small>
+                </a>
+            </li>
+
+            <li>
+                <a href="/admin/supplier">
+                    <i class="fa fa-edit"></i> <span>Nhà cung cấp</span> <small class="label pull-right bg-green">new</small>
+                </a>
+            </li>
+
+            <li>
+                <a href="/admin/product">
+                    <i class="fa fa-edit"></i> <span>Sản phẩm</span> <small class="label pull-right bg-green">new</small>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/order">
+                    <i class="fa fa-edit"></i> <span>Đơn hàng</span> <small class="label pull-right bg-green">new</small>
+                </a>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-file-pdf-o"></i>
+                    <span>Thống kê</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/Admin/Inventory/ByCategory"><i class="fa fa-circle-o"></i> Theo danh mục</a></li>
+                    <li><a href="/Admin/Inventory/BySupplier"><i class="fa fa-circle-o"></i> Theo nhà cung cấp</a></li>
+                    
+
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-file-pdf-o"></i>
+                    <span>Doanh số</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/Admin/Revenue/ByProduct"><i class="fa fa-circle-o"></i> Theo hàng hóa</a></li>
+                    <li><a href="/Admin/Revenue/ByCategory"><i class="fa fa-circle-o"></i> Theo danh mục</a></li>
+                    <li><a href="/Admin/Revenue/BySupplier"><i class="fa fa-circle-o"></i> Theo nhà cung cấp</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/Admin/Revenue/ByCustomer"><i class="fa fa-circle-o"></i> Theo khách hàng</a></li>
+                    <li><a href="/Admin/Revenue/ByYear"><i class="fa fa-circle-o"></i> Theo năm</a></li>
+                    <li><a href="/Admin/Revenue/ByQuarter"><i class="fa fa-circle-o"></i> Theo quí</a></li>
+                    <li><a href="/Admin/Revenue/ByMonth"><i class="fa fa-circle-o"></i> Theo tháng</a></li>
+                    
+
+                </ul>
+            </li>
+
+
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

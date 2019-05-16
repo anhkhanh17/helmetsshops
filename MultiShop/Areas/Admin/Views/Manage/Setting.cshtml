@@ -1,0 +1,48 @@
+﻿@using WebConfig.Util
+@{
+    ViewBag.Title = "Setting";
+}
+
+<h3>Setting</h3>
+<hr />
+
+@using (Html.BeginForm("UpdateSetting", "Manage", FormMethod.Post, new {@class="form-horizontal", id="form-setting"}))
+{ 
+
+
+<div class="control-group">
+    <label class="control-label">Server</label>
+    <input type="text" value="@ViewBag.Setting["SMTPServer"]" class=" form-control" name="SMTPServer" required /> 
+   
+</div>
+<div class="control-group">
+    <label class="control-label">Port</label>
+    <input type="number" value="@ViewBag.Setting["Port"]" class=" form-control"  name="Port" id="Port" required/>
+
+</div>
+<div class="control-group">
+    <label class="control-label">Credential</label>
+    <input type="text" value="@ViewBag.Setting["CredentialUserName"]" class=" form-control" name="CredentialUserName" required />
+
+</div>
+
+<div class="control-group">
+    <label class="control-label">Credential Password</label>
+    <input type="password" value="@StringCipher.Decrypt(@ViewBag.Setting["CredentialPassword"], "c1bc0bgq")" class=" form-control" name="CredentialPassword" required />
+
+</div>
+
+<div class="control-group">
+    <label class="control-label">SSL Enable</label>
+   
+    <input type="checkbox" name="EnableSsl" value="true" @(ViewBag.Setting["EnableSsl"] == "True" || ViewBag.Setting["EnableSsl"] == "true" || ViewBag.Setting["EnableSsl"] == "1" ? "checked" : "") />
+    <input type="hidden" name="EnableSsl" value="false" />
+    
+
+</div>
+<div>
+    <button type="submit" class="btn btn-primary"><i class="fa fa-pencil"></i> Update</button>
+</div>
+}
+
+

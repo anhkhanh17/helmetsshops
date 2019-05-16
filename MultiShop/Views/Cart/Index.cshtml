@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Giỏ Hàng Của Tôi";
+}
+
+<h3>Giỏ Hàng Của Tôi</h3>
+<table class="table table-hover">
+    <tr>
+        <th>Mã hàng</th>
+        <th>Tên hàng</th>
+        <th>Đơn giá</th>
+        <th>Chiết khấu</th>
+        <th>Số lượng</th>
+        <th>Thành tiền</th>
+        <th></th>
+    </tr>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.Id</td>
+            <td>@p.Name</td>
+            <td>@String.Format("{0:0,0}", p.UnitPrice).Replace(",", ".")</td>
+            <td>@Html.FormatValue(p.Discount, "{0:p}")</td>
+            <td><input class="quantity" type="number" min="1" max="10" maxlength="2" value="@p.Quantity" data-id="@p.Id" size="3"></td>
+            <td id="@p.Id">@String.Format("{0:0,0}", (p.UnitPrice * p.Quantity * (1 - p.Discount))).Replace(",", ".")</td>
+            <td>
+                <img class="remove-from-cart" data-id="@p.Id" src="~/Content/img/icons/Delete.png" />
+            </td>
+        </tr>
+    }
+    <tr>
+        <th colspan="5" style="text-align:right">Tổng cộng:</th>
+        <th>@String.Format("{0:0,0 VNĐ}", ShoppingCart.Cart.Total).Replace(",", ".")</th>
+        <th></th>
+    </tr>
+
+</table>
+<form action="/Cart/Clear" method="post">
+    <button class="btn btn-default">
+        <span class="glyphicon glyphicon-th-list"></span>
+        Xóa giỏ hàng
+    </button>
+    <a href="/Home/Index" class="btn btn-default">
+        <span class="glyphicon glyphicon-th-list"></span>
+        Tiếp tục mua hàng
+        <a href="/Order/Checkout" class="btn btn-default">
+            <span class="glyphicon glyphicon-th-list"></span>
+            Đặt hàng
+        </a>
+
+</form>
+
+@section scripts{
+    <script>
+        $(function () {
+            // Xóa khỏi giỏ
+            //$(".remove-from-cart").click(function ()
+
+            $(document).delegate(".remove-from-cart", "click", function () {
+                pid = $(this).attr("data-id");
+                tr = $(this).parents("tr");// tim <tr> chua <img> bi click
+                $.ajax({
+                    url: "/Cart/Remove",
+                    data: { id: pid },
+                    success: function (response) {
+                        $("#nn-cart-count").html(response.Count);
+                        $(".nn-cart-total").html(response.Total);
+                        $("#cart-item").load("/Cart/PartialCart");
+                        tr.hide(500);
+                    }
+                });
+            });
+            // Cập nhật số lượng
+            $(document).delegate(".quantity, .spquantity", "keyup", function () {
+                pid = $(this).attr("data-id");
+                qty = $(this).val();
+                //$("#"+pid+"-ss").val(qty);
+                $.ajax({
+                    url: "/Cart/Update",
+                    data: { id: pid, quantity: qty },
+                    success: function (response) {
+                        $("#nn-cart-count").html(response.Count);
+                        $(".nn-cart-total").html(response.Total);
+                        $("#" + pid).html("" + response.Amount);
+                        $("#" + pid + "-ss").attr("value", response.quantity);
+
+                        //$("#" + pid).html("" + response.quantity);
+
+                        $("#cart-item").load("/Cart/PartialCart");
+
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <script src="~/Scripts/FlyingCart.js"></script>
+
+
+}

@@ -1,0 +1,337 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div style="border:1px solid grey;">
+    <fieldset>
+        <legend style="padding-left:20px;">Quản lý vai trò tài khoản</legend>
+        @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal", id = "form-role" }))
+        {
+            @*@Html.DropDownList("OldRoleName")
+                <input type="submit" value="Remove" onclick="form.action = '/Admin/Master/RemoveRole'" />*@
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Quyền:</label>
+                    <div class="col-md-10">
+                        @Html.TextBox("NewRoleName", null, new { @class = "form-control", @required = "required" })
+                    </div>
+
+
+                </div>
+                <div class="col-md-offset-2">
+                    <input class="btn btn-primary" type="submit" value="Thêm" onclick="form.action = '/Admin/Master/AddRole'" />
+                </div>
+            </div>
+
+        }
+
+        @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal", id = "form-role-delete" }))
+        {
+            <div class="col-md-8">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Quyền</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in ViewBag.Roles)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="UserRoles" value="@r.Name" />
+                                    @r.Name
+
+                                </td>
+                                <td>
+
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="form.action = '/Admin/Master/RemoveRole?OldRoleName=@r.Name'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @r.Name" data-message="Bạn có chăc chắn muốn xóa mục @r.Name?"><i class="fa fa-trash"></i>Xóa</button>
+                                </td>
+                            </tr>
+
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        }
+
+
+
+    </fieldset>
+    <hr />
+</div>
+<!--end rolemanagement-->
+
+<div style="border:1px solid grey; margin-top:20px;">
+    <fieldset>
+        <legend style="padding-left:20px">Quản lý tài khoản</legend>
+
+        @using (Html.BeginForm("adduser", "master", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form-user" }))
+        {
+            <div class="form-group">
+                <label for="Email" class="control-label col-md-2">Tài khoản</label>
+                <div class="col-md-6">
+                    @Html.TextBox("UserName", null, new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="Password" class="control-label col-md-2">Mật khẩu</label>
+                <div class="col-md-6">
+                    @Html.Password("Password", null, new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="Fullname" class="control-label col-md-2">Họ vầ tên</label>
+                <div class="col-md-6">
+                    @Html.TextBox("Fullname", null, new { @class = "form-control" })
+                </div>
+
+            </div>
+
+
+
+
+            <div class="col-md-offset-2">
+                <div>Vai trò</div>
+                @foreach (var r in ViewBag.Roles)
+                {
+                    <label>
+                        <input type="checkbox" name="UserRoles" value="@r.Name" />
+                        @r.Name
+                    </label>
+                }
+                &nbsp; <input class="btn btn-primary" type="submit" value="Thêm" onclick="form.action = '/Admin/Master/AddUser'" />
+            </div>
+
+
+
+        }
+
+        <hr />
+        @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form-user" }))
+        {
+            <table class="table table-bordered" id="domainTable">
+                <thead>
+                    <tr>
+                        <th>Tài khoản</th>
+                        <th>Quyền</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (MultiShop.Models.ApplicationUser u in ViewBag.Users)
+                    {
+                        var roleIds = u.Roles.Select(ur => ur.RoleId).ToList();
+                        <tr>
+                            <td>@u.UserName</td>
+                            <td>
+                                @foreach (var r in ViewBag.Roles)
+                                {
+                                    var check = roleIds.Contains(r.Id) ? "checked" : "";
+                                    <label>
+                                        <input @check type="checkbox" name="Roles"
+                                               value="@r.Name" data-userid="@u.UserName" />
+                                        @r.Name
+                                    </label>
+                                }
+                            </td>
+                            <td>
+                                @*<a class="btn btn-danger" href="/Admin/Master/RemoveUser?UserName=@u.UserName">Delete</a>*@
+                                <button type="button" class="btn btn-sm btn-danger" onclick="form.action = '/Admin/Master/RemoveUser?UserName=@u.UserName'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @u.UserName" data-message="Bạn có chắc chắn muốn xóa mục @u.UserName ?"><i class="fa fa-trash"></i> Xóa</button>
+
+                                <a class="btn btn-sm btn-warning " href="/Admin/Master/ResetPassword/@u.Id">Đổi mật khẩu</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        }
+    </fieldset>
+</div>
+
+@Html.Partial("_ModelPopup")
+
+
+@section scripts{
+    <script src="~/Scripts/LoadDataTable.js"></script>
+    <script src="~/Scripts/ModelPopup.js"></script>
+    <script>
+        $(function () {
+            $(":checkbox[name=Roles]").click(function () {
+                var roleName = $(this).val();
+                var status = $(this).prop("checked");
+                var userName = $(this).attr("data-userid");
+                $.ajax({
+                    url: "/Admin/Master/UpdateRole",
+                    data: { Name: roleName, Status: status, UserName: userName },
+                    success: function (response) {
+                        alert(response);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+            $('#form-user').bootstrapValidator({
+                //live: 'disabled',
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+
+                fields: {
+
+                    Email: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'Bạn chưa nhập tài khoản'
+                            },
+
+                            emailAddress: {
+                                message: 'Tài khoản đã tồn tại'
+                            },
+                            remote: {
+                                type: 'GET',
+                                url: '/Validating/IsUserExists',
+                                data: { type: 'UserName' },
+                                //data: function (validator) {
+                                //    return {
+                                //        'NewRoleName': validator.getFieldElements('NewRoleName').val()
+                                //    };
+                                //},
+                                message: 'Tài khoản đã tồn tại'
+                            },
+                        }
+                    },
+                    Password: {
+                        validators: {
+
+                            notEmpty: {
+                                message: 'Bạn chưa nhập mật khẩu'
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 30,
+                                message: 'Mật khẩu phải từ 6-30 kí tự'
+                            }
+                        }
+
+                    },
+
+                    Fullname: {
+                        validators: {
+
+                            notEmpty: {
+                                message: 'Bạn chưa nhập tên người dùng'
+                            },
+
+                        }
+
+                    },
+
+
+
+
+                }
+            });
+        });
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+            $('#form-role').bootstrapValidator({
+                //live: 'disabled',
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+
+                fields: {
+
+                    NewRoleName: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'Bạn chưa nhập tên quyền'
+                            },
+
+                            remote: {
+                                type: 'GET',
+                                url: '/Validating/IsRoleExists',
+                                data: { type: 'NewRoleName' },
+                                //data: function (validator) {
+                                //    return {
+                                //        'NewRoleName': validator.getFieldElements('NewRoleName').val()
+                                //    };
+                                //},
+                                message: 'Tên quyền đã được sử dụng'
+                            },
+                        }
+                    },
+
+
+                }
+
+
+
+
+
+            });
+
+
+        });
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

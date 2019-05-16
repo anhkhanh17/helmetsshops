@@ -1,0 +1,312 @@
+﻿@using MultiShop.Models;
+@model Supplier
+
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-4" id="supplier-left">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Nhà cung cấp</h3>
+            </div><!-- /.box-header -->
+            <!-- form start -->
+
+
+            <form role="form" action="" method="post" id="form-supplier">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="Id">Mã nhà cung cấp</label>
+
+                        <input type="text" class="form-control" id="Id" placeholder="Id" name="Id" value="@Model.Id">
+                    </div>
+                    <div class="form-group">
+                        <label for="Name">Tên nhà cung cấp</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name" name="Name" value="@Model.Name">
+
+                        @*<textarea class="ckeditor" cols="20" id="Ckeditor1" name="Name" rows="2">@Model.Name</textarea>*@
+
+                    </div>
+                    <div class="form-group">
+                        <label for="logo">Logo</label>
+
+                        <input type="file" id="Logo" class="form-control" name="filelogo">
+                        <br />
+                        <div class="img-responsive"> <img id="img" src="@Model.Logo" style="width:100px;height:80px" /></div>
+                        <br />
+                        <input type="hidden" id="logo-text" class="form-control" placeholder="Logo" name="Logo" value="@Model.Logo">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="Name">Email</label>
+                        <input type="email" class="form-control" id="Email" placeholder="Email" name="Email" value="@Model.Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Số điện thoại</label>
+                        <input type="text" class="form-control" id="Phone" placeholder="Phone" name="Phone" value="@Model.Phone">
+                    </div>
+
+                </div>
+
+                <div class="box-footer">
+
+                    <button type="submit" onclick="form.action='/Admin/Supplier/Insert'" class="btn btn-primary box-button" id="validateBtn">
+                        Thêm
+                        <i class="fa fa-check icon-white"></i>
+                    </button>
+
+                    <button type="submit" onclick="form.action = '/Admin/Supplier/Update'" class="btn btn-info box-button">
+                        Cập nhật
+                        <i class="fa fa-pencil icon-white"></i>
+                    </button>
+                    <button type="button" onclick="form.action = '/Admin/Supplier/Delete'" class="btn btn-danger box-button" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @Model.Id" data-message="Bạn có chắc chắn muốn xóa mục @Model.Id ?">
+                        Xóa
+                        <i class=" fa fa-trash icon-white">
+                        </i>
+                    </button>
+                    <button onclick="form.action = '/Admin/Supplier/Index'" class="btn btn-default box-button">
+                        Làm mới
+                    </button>
+                </div>
+            </form>
+        </div><!-- /.box -->
+    </div> <!--end col-->
+    <div class="col-md-8">
+        <div> <a href="/Admin/Supplier/Index" class="btn btn-success btn-lg" id="create-supplier"> Thêm mới <i class="fa fa-plus icon-white"></i></a></div>
+        <br />
+
+        <form method="post" action="">
+            <table class="table" id="domainTable">
+                <thead>
+                    <tr>
+
+                        <th>
+                            <input type="checkbox" id="check-all-header" />
+
+                        </th>
+                        <th>
+                            Tên nhà cung cấp
+                        </th>
+                        <th>
+                            Logo
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Số điện thoại
+                        </th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Supplier item in ViewBag.Suppliers)
+                    {
+
+
+                        <tr>
+                            <td>
+
+                                <input type="checkbox" name="ids" value="@item.Id" />
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+
+                                <img src="@item.Logo" style="width:100px;height:80px" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @*<a href="/Admin/Supplier/Edit/@item.Id" class="btn btn-warning btn-sm supplier-edit"><i class="fa fa-pencil icon-white"></i></a>*@
+                                <button id="supplier-edit" onclick="form.action = '/Admin/Supplier/Edit/@item.Id'" class="btn btn-warning btn-sm"><i class="fa fa-pencil icon-white"></i></button>
+
+                                @*<a data-target="#confirmDelete" class="btn delete-asset btn-danger btn-sm" data-toggle="modal"   data-message="Are you sure you wish to delete this supplier @item.Name?" data-title="Delete @item.Name"><i class="fa fa-trash icon-white"></i></a>*@
+
+                                <button type="button" class="btn delete-asset btn-danger btn-sm" onclick="form.action = '/Admin/Supplier/Delete/@item.Id'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @item.Id" data-message="Bạn có chắc chắn muốn xóa mục @item.Id ?">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+
+
+                            </td>
+                        </tr>
+                    }
+
+
+
+                </tbody>
+
+            </table>
+
+
+
+            <button class="btn btn-lg btn-danger" type="button" onclick="form.action = '/Admin/Supplier/DeleteSelected'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item item" data-message="Bạn có chắc chắn muốn xóa mục đã chọn ?">
+                Xóa mục đã chọn
+                <i class="glyphicon glyphicon-trash"></i>
+            </button>
+
+        </form>
+
+    </div>
+</div> <!--end row-->
+
+
+@Html.Partial("_ModelPopup")
+
+@section scripts{
+
+    <script src="~/Scripts/LoadDataTable.js"></script>
+    <script src="~/Scripts/ModelPopup.js"></script>
+
+    <script>
+        $('#deleteConfirmModal').modal('show');
+        function readImage(input) {
+            if (input.files && input.files[0]) {
+                var FR = new FileReader();
+                FR.onload = function (e) {
+                    $('#img').attr("src", e.target.result);
+                    $('#logo-text').val(e.target.result);
+                };
+                FR.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Logo").change(function () {
+            readImage(this);
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#check-all-header").click(function () {
+                var checkedStatus = this.checked;
+                $('#domainTable tbody tr').find('td:first :checkbox').each(function () {
+                    $(this).prop('checked', checkedStatus);
+                });
+
+            });
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        CKEDITOR.replace('#Ckeditor1', {
+            filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html',
+            filebrowserImageUploadUrl: '/ckfinder/ckfinder.html'
+        });
+        //$(function () {
+        //    $('#Ckeditor1').ckeditor();
+
+        //    CKFinder.setupCKEditor(null, '/ckfinder/');
+        //});
+
+    </script>
+
+
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+            $('#form-supplier').bootstrapValidator({
+                // live: 'disabled',
+                excluded: [':disabled', ':hidden', ':not(:visible)'],
+                message: 'This value is not valid',
+                submitButtons: 'button[id="validateBtn"]',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh',
+
+                },
+                fields: {
+                    Id: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'Nhập mã nhà cung cấp'
+                            },
+
+                            remote: {
+                                type: 'GET',
+                                url: '/Validating/IsSupplierExists',
+                                data: { type: 'Id' },
+                                message: 'Mã nhà cung cấp đã tồn tại'
+                            },
+
+
+                        }
+                    },
+                    Name: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'Nhập tên nhà cung cấp'
+                            },
+
+
+                        }
+                    },
+
+
+                    Email: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'Nhập email nhà cung cấp'
+                            },
+                            emailAddress: {
+                                message: 'Email nhà cung cấp đã tồn tại'
+                            },
+
+                        }
+                    },
+
+                    Phone: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'Nhập số điện thoại nhà cung cấp'
+                            },
+
+
+                        }
+                    },
+
+                }
+            });
+
+            // Validate the form manually
+            //$('#validateBtn').click(function() {
+            //    $('#form-supplier').bootstrapValidator();
+            //});
+
+            //$('#resetBtn').click(function() {
+            //    $('#defaultForm').data('bootstrapValidator').resetForm(true);
+            //});
+        });
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+}

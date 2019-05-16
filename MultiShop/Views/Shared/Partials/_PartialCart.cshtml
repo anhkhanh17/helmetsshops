@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Shopping Cart ";
+}
+
+@if(!Model.Any())
+{
+    <div style="padding:10px;"> Your cart is empty</div>
+}
+ else
+{ 
+        foreach(var p in Model)
+        {
+          <div class="row" id="@p.Id sp">
+             <div class="col-xs-4">
+                 <div class="image">
+                     <a href="indexbd17.html?page=detail"><img width="41" height="63" src="/Content/img/products/images/@p.Image" alt=""></a>
+                 </div>
+             </div>
+             <div class="col-xs-4">
+
+                 <h3 class="name"><a href="index8a95.html?page-detail" class="item-name"></a> @p.Name</h3>
+                 <div class="price item-price"></div>
+             </div>
+              <div class="col-xs-2">
+
+                  <input class="quantity spquantity" value="@p.Quantity" data-id="@p.Id" size="2" >
+                  <div class="price item-price"></div>
+              </div>
+              <div class="col-xs-2 action pull-right removeProduct">
+                  <a href="#" class="removeProduct">
+                      <i class="removeProduct fa fa-trash" data-id="@p.Id" data-id-remove="@p.Id" ></i>
+                  </a>
+                 
+              </div>
+
+
+         </div>
+        }
+} 
+
+
+

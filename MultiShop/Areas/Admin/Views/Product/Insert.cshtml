@@ -1,0 +1,291 @@
+﻿@model Product
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+}
+
+<h4>Create Product</h4>
+@using (@Html.BeginForm("Insert", "Product", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "form-product-insert" }))
+{
+    @Html.Partial("Partials/_ErrorValidate")
+
+    <div class="form-group">
+        @Html.Label("Mã sản phẩm", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.Id, new { @class = "form-control", Value = @ViewBag.LastId })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Tên sản phẩm", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Giá bán", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.UnitPrice, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Đơn vị tính", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.UnitBrief, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Hình ảnh", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @*<input id="ImageUrl" name="ImageUrl" />*@
+            @Html.TextBoxFor(m => m.Image)
+            <input name="uplImage" type="button" id="btnSelectImg" value="Chọn hình ảnh ..." />
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Ngày sản xuất", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+
+            <div class="input-group input-append date" id="dateRangePicker">
+                @Html.TextBoxFor(m => m.ProductDate, new { @class = "form-control", Value = @DateTime.Now.ToString("MM/dd/yyyy") })
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CategoryId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.DropDownList("CategoryId")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Mã loại sản phẩm", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.DropDownList("SupplierId")
+            <input id="SupplierId-Text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Số lượng", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control", Value = "1" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Giảm giá", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.Discount, new { @class = "form-control", Value = "0" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Đặt tính</label>
+        <div class="col-md-8">
+
+            <label class="checkbox-inline">@Html.CheckBoxFor(m => m.Available) @Html.DisplayNameFor(m => m.Available)</label>
+            <label class="checkbox-inline">@Html.CheckBoxFor(m => m.Special) @Html.DisplayNameFor(m => m.Special)</label>
+            <label class="checkbox-inline">@Html.CheckBoxFor(m => m.Latest) @Html.DisplayNameFor(m => m.Latest)</label>
+
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Số lượt xem", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.Views, new { @class = "form-control", Value = "0" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Mô tả", new { @class = "col-md-2 control-label" })
+        <div class="col-md-8">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control ckeditor", rows = "3", cols = "55", id = "Ckeditor1" })
+        </div>
+    </div>
+    <button type="submit" onclick="form.action='/Admin/Product/Insert'" class="btn btn-primary box-button col-md-offset-2">
+        Insert
+        <i class="fa fa-check icon-white"></i>
+    </button>
+    @*<div class="col-md-offset-2">
+            <input type="submit" class="btn btn-primary" value="Insert" />
+        </div>*@
+
+}
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#SupplierId").change(function () {
+                var id = $(this).val();
+                $("#SupplierId-Text").val(id);
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+        CKEDITOR.replace('#Ckeditor1', {
+            filebrowserImageBrowseUrl: '/home/uploadPartial',
+            filebrowserImageUploadUrl: '/home/uploadnow'
+        });
+    </script>
+
+
+
+
+    <script src="@Url.Content("~/ckfinder/ckfinder.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).delegate("#btnSelectImg", "click", function () {
+            //$("#btnSelectImg").click(function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $('#Image').val(fileUrl);
+                $('#form-product-insert').bootstrapValidator('revalidateField', 'Image');
+            };
+            finder.popup();
+        });
+
+
+    </script>
+
+
+
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#dateRangePicker')
+                .datepicker({
+                    format: 'mm/dd/yyyy',
+                    startDate: '01/01/2010',
+                    endDate: '12/30/2020'
+                })
+                .on('changeDate', function (e) {
+                    // Revalidate the date field
+                    $('#form-product-update').formValidation('revalidateField', 'ProductDate');
+                });
+
+
+            $('#form-product-insert').bootstrapValidator({
+                //live: 'disabled',
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    Name: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'The Name is required and cannot be empty'
+                            },
+
+
+                        }
+                    },
+
+                    UnitPrice: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'The Unit Price is required and cannot be empty'
+                            },
+
+
+                        }
+                    },
+
+                    Image: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'The Image is required and cannot be empty'
+                            },
+
+
+                        }
+                    },
+
+
+                    ProductDate: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'The Product Date is required and cannot be empty'
+                            },
+                            date: {
+                                format: 'MM/DD/YYYY',
+                                message: 'in valid date time. format The mm/dd/yyyy'
+                            },
+
+
+                        }
+                    },
+
+                    Quantity: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'The Quantity is required and cannot be empty'
+                            },
+
+
+                        }
+                    },
+
+                    Discount: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'The Discount is required and cannot be empty'
+                            },
+
+
+                        }
+                    },
+
+                    View: {
+
+                        validators: {
+                            notEmpty: {
+                                message: 'The View is required and cannot be empty'
+                            },
+
+
+                        }
+                    },
+
+
+                }
+            });
+
+            // Validate the form manually
+            //$('#validateBtn').click(function() {
+            //    $('#RegisterForm').bootstrapValidator('validate');
+            //});
+
+            //$('#resetBtn').click(function() {
+            //    $('#defaultForm').data('bootstrapValidator').resetForm(true);
+            //});
+        });
+
+
+
+    </script>
+
+
+
+
+}
