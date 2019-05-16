@@ -1,8 +1,8 @@
 # helmetsshops
 Tên đề tài: Xây dựng website bán mũ bảo hiểm </br>
-SVTH: Võ Đức Khánh
-Lớp: D15HT01
-GVHD: Ths.Đặng Phạm Hữu Thảo
+SVTH: Võ Đức Khánh</br>
+Lớp: D15HT01</br>
+GVHD: Ths.Đặng Phạm Hữu Thảo</br>
 Đặc điểm website:
 - Có thể triển khai ở các cửa hàng
 bán mũ bảo hiểm
